@@ -22,10 +22,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onBtnClick(view: View) {
-        var viewText: TextView = findViewById(R.id.txtHello)
-        var editTxt: EditText = findViewById(R.id.editTxtName)
+        var fullNameView: TextView = findViewById(R.id.txtFirstName)
+        var lastNameView: TextView = findViewById(R.id.txtLastName)
+        var emailView: TextView = findViewById(R.id.txtEmail)
 
-        viewText.setText("Hello " + editTxt.text + "!!")
+
+        var editFirstNameTxt: EditText = findViewById(R.id.editFirstName)
+        var editLastNameTxt: EditText = findViewById(R.id.editLastName)
+        var editEmailTxt: EditText = findViewById(R.id.editEmail)
+
+        fullNameView.setText("First name " + editFirstNameTxt.text)
+        lastNameView.setText("Last name " + editLastNameTxt.text)
+        emailView.setText("Email " + editEmailTxt.text)
 
     }
 }
