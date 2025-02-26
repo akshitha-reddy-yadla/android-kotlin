@@ -22,8 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     private val myFormatter = DecimalFormat("######.######")
 
-    private var history : String = ""
-    private var correctResult : String = ""
+    private var history: String = ""
+    private var correctResult: String = ""
+
+    private var dotControl: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +89,13 @@ class MainActivity : AppCompatActivity() {
 
         mainBinding.btnDel.setOnClickListener {
             number?.let {
-                number = it.substring(0, it.length - 1)
-                mainBinding.textViewResult.text = number
+                if(it.length == 1) {
+                    onBtnAcClick()
+                }else {
+                    number = it.substring(0, it.length - 1)
+                    mainBinding.textViewResult.text = number
+                    dotControl = !number!!.contains(".")
+                }
             }
         }
 
@@ -111,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             status = "division"
             operator = false
             number = null
+            dotControl = true
         }
 
         mainBinding.btnMultiply.setOnClickListener {
@@ -131,6 +139,7 @@ class MainActivity : AppCompatActivity() {
             status = "multiplication"
             operator = false
             number = null
+            dotControl = true
         }
 
         mainBinding.btnMinus.setOnClickListener {
@@ -151,6 +160,7 @@ class MainActivity : AppCompatActivity() {
             status = "subtraction"
             operator = false
             number = null
+            dotControl = true
         }
 
         mainBinding.btnPlus.setOnClickListener {
@@ -171,6 +181,7 @@ class MainActivity : AppCompatActivity() {
             status = "addition"
             operator = false
             number = null
+            dotControl = true
         }
 
         mainBinding.btnEqual.setOnClickListener {
@@ -186,19 +197,23 @@ class MainActivity : AppCompatActivity() {
                     "addition" -> plus()
                     else -> firstNumber = mainBinding.textViewResult.text.toString().toDouble()
                 }
-                mainBinding.textViewHistory.text = history.plus(correctResult).plus("=").plus(mainBinding.textViewResult.text.toString())
+                mainBinding.textViewHistory.text = history.plus(correctResult).plus("=")
+                    .plus(mainBinding.textViewResult.text.toString())
 
             }
             operator = false
         }
 
         mainBinding.btnDot.setOnClickListener {
-            number = if (number == null) {
-                "0."
-            }else {
-                "$number."
+            if (dotControl) {
+                number = if (number == null) {
+                    "0."
+                } else {
+                    "$number."
+                }
+                mainBinding.textViewResult.text = number
             }
-            mainBinding.textViewResult.text = number
+            dotControl = false
         }
     }
 
@@ -209,6 +224,7 @@ class MainActivity : AppCompatActivity() {
         mainBinding.textViewHistory.text = ""
         firstNumber = 0.0
         lastNumber = 0.0
+        dotControl = true
     }
 
     private fun onNumberClicked(clickedNumber: String) {
