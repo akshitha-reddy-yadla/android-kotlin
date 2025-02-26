@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private var dotControl: Boolean = true
 
+    private var btnEqualsControl: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -89,9 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         mainBinding.btnDel.setOnClickListener {
             number?.let {
-                if(it.length == 1) {
+                if (it.length == 1) {
                     onBtnAcClick()
-                }else {
+                } else {
                     number = it.substring(0, it.length - 1)
                     mainBinding.textViewResult.text = number
                     dotControl = !number!!.contains(".")
@@ -185,7 +187,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainBinding.btnEqual.setOnClickListener {
-
             history = mainBinding.textViewHistory.text.toString()
             correctResult = mainBinding.textViewResult.text.toString()
 
@@ -202,12 +203,20 @@ class MainActivity : AppCompatActivity() {
 
             }
             operator = false
+            dotControl = true
+            btnEqualsControl = true
         }
 
         mainBinding.btnDot.setOnClickListener {
             if (dotControl) {
                 number = if (number == null) {
                     "0."
+                } else if (btnEqualsControl) {
+                    if (mainBinding.textViewResult.text.toString().contains(".")) {
+                        mainBinding.textViewResult.text.toString()
+                    } else {
+                        mainBinding.textViewResult.text.toString().plus(".")
+                    }
                 } else {
                     "$number."
                 }
@@ -225,17 +234,31 @@ class MainActivity : AppCompatActivity() {
         firstNumber = 0.0
         lastNumber = 0.0
         dotControl = true
+        btnEqualsControl = false
     }
 
     private fun onNumberClicked(clickedNumber: String) {
         if (number == null) {
             number = clickedNumber
+        } else if (btnEqualsControl) {
+            number = if (dotControl) {
+                clickedNumber
+            } else {
+                mainBinding.textViewResult.text.toString().plus(clickedNumber)
+            }
+
+            firstNumber = number!!.toDouble()
+            lastNumber = 0.0
+            status = null
+            mainBinding.textViewHistory.text = number
+
         } else {
             number += clickedNumber
         }
         mainBinding.textViewResult.text = number
 
         operator = true
+        btnEqualsControl = false
     }
 
     private fun plus() {
