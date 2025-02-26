@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnAc" type="id" />
+    <item name="btnDel" type="id" />
+</resources>
