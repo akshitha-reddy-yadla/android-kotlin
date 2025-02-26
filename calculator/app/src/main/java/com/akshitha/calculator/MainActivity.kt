@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
 
     private var firstNumber: Double = 0.0;
     private var lastNumber: Double = 0.0;
+
+    private var status: String? = null
+    private var operator: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -80,18 +83,66 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainBinding.btnDivide.setOnClickListener {
-            
+            if(operator) {
+                when(status) {
+                    "multiplication" -> multiply()
+                    "division" -> divide()
+                    "subtraction" -> minus()
+                    "addition" -> plus()
+                    else -> firstNumber = mainBinding.textViewResult.text.toString().toDouble()
+                }
+            }
+
+            status = "division"
+            operator = false
+            number = null
         }
 
         mainBinding.btnMultiply.setOnClickListener {
+            if(operator) {
+                when(status) {
+                    "multiplication" -> multiply()
+                    "division" -> divide()
+                    "subtraction" -> minus()
+                    "addition" -> plus()
+                    else -> firstNumber = mainBinding.textViewResult.text.toString().toDouble()
+                }
+            }
 
+            status = "multiplication"
+            operator = false
+            number = null
         }
         mainBinding.btnMinus.setOnClickListener {
+            if(operator) {
+                when(status) {
+                    "multiplication" -> multiply()
+                    "division" -> divide()
+                    "subtraction" -> minus()
+                    "addition" -> plus()
+                    else -> firstNumber = mainBinding.textViewResult.text.toString().toDouble()
+                }
+            }
 
+            status = "subtraction"
+            operator = false
+            number = null
         }
 
         mainBinding.btnPlus.setOnClickListener {
+            if(operator) {
+                when(status) {
+                    "multiplication" -> multiply()
+                    "division" -> divide()
+                    "subtraction" -> minus()
+                    "addition" -> plus()
+                    else -> firstNumber = mainBinding.textViewResult.text.toString().toDouble()
+                }
+            }
 
+            status = "addition"
+            operator = false
+            number = null
         }
 
         mainBinding.btnEqual.setOnClickListener {
@@ -110,6 +161,8 @@ class MainActivity : AppCompatActivity() {
             number += clickedNumber
         }
         mainBinding.textViewResult.text = number
+
+        operator = true
     }
 
     fun plus() {
@@ -141,6 +194,4 @@ class MainActivity : AppCompatActivity() {
             mainBinding.textViewResult.text = firstNumber.toString()
         }
     }
-
-
 }
