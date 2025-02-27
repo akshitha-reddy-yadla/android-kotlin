@@ -53,8 +53,6 @@
             android:id="@+id/mySwitch"
             app:thumbTint="@color/switch_thumb"
             app:trackTint="@color/switch_track"
-
-
             />
 
     </LinearLayout>
