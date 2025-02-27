@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.CompoundButton
 import android.widget.Switch
 import androidx.activity.enableEdgeToEdge
@@ -32,16 +33,17 @@ class ChangeThemeActivity : AppCompatActivity() {
             insets
         }
 
-        switchBinding.toolbar2.setNavigationOnClickListener {
+        val function: (View) -> Unit = {
             finish()
         }
+        switchBinding.toolbar2.setNavigationOnClickListener(function)
 
-        val onOffSwitch: SwitchMaterial = findViewById(R.id.mySwitch)
-
-        val function: (CompoundButton, Boolean) -> Unit = { _, isChecked ->
+        switchBinding.mySwitch.setOnCheckedChangeListener { buttonView, isChecked ->
 
             sharedPreferences = this.getSharedPreferences("Dark Theme", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
+
+            Log.i("theme 1", isChecked.toString())
 
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -52,7 +54,6 @@ class ChangeThemeActivity : AppCompatActivity() {
             }
             editor.apply()
         }
-        onOffSwitch.setOnCheckedChangeListener(function)
     }
 
     override fun onResume() {
@@ -60,7 +61,10 @@ class ChangeThemeActivity : AppCompatActivity() {
         super.onResume()
         sharedPreferences = this.getSharedPreferences("Dark Theme", Context.MODE_PRIVATE)
 
+
         val isDark = sharedPreferences.getBoolean("switch", false)
+
+        Log.i("theme 2", isDark.toString())
 
         switchBinding.mySwitch.isChecked = isDark
     }

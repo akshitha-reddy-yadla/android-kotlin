@@ -1,11 +1,15 @@
 package com.akshitha.calculator
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.icu.text.DecimalFormat
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.akshitha.calculator.databinding.ActivityMainBinding
@@ -29,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     private var dotControl: Boolean = true
 
     private var btnEqualsControl: Boolean = false
+
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -241,6 +247,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        sharedPreferences = this.getSharedPreferences("Dark Theme", Context.MODE_PRIVATE)
+
+        val isDarkMode = sharedPreferences.getBoolean("switch", false)
+
+        Log.i("theme", isDarkMode.toString())
+
+        if(isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
     private fun onBtnAcClick() {
         number = null
         status = null
