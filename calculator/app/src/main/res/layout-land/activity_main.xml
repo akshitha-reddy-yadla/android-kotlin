@@ -25,7 +25,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/orange"
             app:title="Calculator"
-            app:titleTextColor="@color/white"></com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextColor="@color/white"
+            app:menu="@menu/settings_menu"
+            ></com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
 

@@ -6,4 +6,7 @@
     <color name="background_color">#FF000000</color>
     <color name="text_color">#FFFFFFFF</color>
     <color name="orange">#FF9800</color>
+    <color name="switch_thumb">#E89F87</color>
+    <color name="switch_track">#FF9800</color>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.akshitha.calculator
 
+import android.content.Intent
 import android.icu.text.DecimalFormat
 import android.os.Bundle
 import android.widget.Toast
@@ -223,6 +224,20 @@ class MainActivity : AppCompatActivity() {
                 mainBinding.textViewResult.text = number
             }
             dotControl = false
+        }
+
+        mainBinding.toolbar.setOnMenuItemClickListener { item ->
+            when(item.itemId) {
+
+                R.id.settings_item -> {
+                    val intent = Intent(this@MainActivity, ChangeThemeActivity::class.java)
+                    startActivity(intent)
+                    return@setOnMenuItemClickListener true
+                }
+
+                else -> return@setOnMenuItemClickListener false
+            }
+
         }
     }
 
