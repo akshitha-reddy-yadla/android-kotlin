@@ -254,14 +254,60 @@ class MainActivity : AppCompatActivity() {
 
         val isDarkMode = sharedPreferences.getBoolean("switch", false)
 
-        Log.i("theme", isDarkMode.toString())
-
         if(isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+
+        sharedPreferences = this.getSharedPreferences("calculations", Context.MODE_PRIVATE)
+
+        val editor = sharedPreferences.edit()
+
+        val resultToSave = mainBinding.textViewResult.text.toString()
+        val historyToSave = mainBinding.textViewHistory.text.toString()
+        val numberToSave = number
+        val statusToSave = status
+        val operatorToSave = operator
+        val dotToSave = dotControl
+        val equalToSave = btnEqualsControl
+        val firstNumberToSave = firstNumber.toString()
+        val lastNumberToSave = lastNumber.toString()
+
+        editor.putString("result", resultToSave);
+        editor.putString("history", historyToSave)
+        editor.putString("number", numberToSave)
+        editor.putString("status", statusToSave)
+        editor.putBoolean("operator", operatorToSave)
+        editor.putBoolean("dot", dotToSave)
+        editor.putBoolean("equal", equalToSave)
+        editor.putString("firstNumber", firstNumberToSave)
+        editor.putString("lastNumber", lastNumberToSave)
+
+        editor.apply()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        sharedPreferences = this.getSharedPreferences("calculations", Context.MODE_PRIVATE)
+
+        mainBinding.textViewResult.text = sharedPreferences.getString("result", "0");
+        mainBinding.textViewHistory.text = sharedPreferences.getString("history", "");
+
+        number = sharedPreferences.getString("number", null)
+        status = sharedPreferences.getString("status", null)
+        operator = sharedPreferences.getBoolean("operator", false)
+        dotControl = sharedPreferences.getBoolean("dot", true)
+        btnEqualsControl = sharedPreferences.getBoolean("equal", false)
+        firstNumber = sharedPreferences.getString("firstNumber", "0.0")!!.toDouble()
+        lastNumber = sharedPreferences.getString("lastNumber", "0.0")!!.toDouble()
+    }
+
     private fun onBtnAcClick() {
         number = null
         status = null
