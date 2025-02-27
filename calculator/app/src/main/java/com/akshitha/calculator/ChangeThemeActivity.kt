@@ -16,16 +16,16 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 class ChangeThemeActivity : AppCompatActivity() {
 
-    lateinit var switchBinding: ActivityChangeThemeBinding
+    private lateinit var switchBinding: ActivityChangeThemeBinding
 
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         switchBinding = ActivityChangeThemeBinding.inflate(layoutInflater)
         val view = switchBinding.root
-        setContentView(R.layout.activity_change_theme)
+        setContentView(view)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -56,10 +56,12 @@ class ChangeThemeActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+
         super.onResume()
         sharedPreferences = this.getSharedPreferences("Dark Theme", Context.MODE_PRIVATE)
 
         val isDark = sharedPreferences.getBoolean("switch", false)
+
         switchBinding.mySwitch.isChecked = isDark
     }
 }
