@@ -1,22 +1,26 @@
 package com.akshitha.numberguessinggame
 
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.akshitha.numberguessinggame.databinding.ActivityGameBinding
-import com.akshitha.numberguessinggame.databinding.ActivityMainBinding
 import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var gameBinding: ActivityGameBinding
 
-    var randomNumber : Int = -1
-    var remainingRight = 8;
+    private var randomNumber : Int = -1
+    private var remainingRight = 8;
+
+    private var steps = 0
+    private var guesses = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,14 +74,19 @@ class GameActivity : AppCompatActivity() {
                 if(randomNumber == -1) {
                     Toast.makeText(applicationContext, "Random Number cannot be -1, Please try again", Toast.LENGTH_LONG).show()
                 }else {
+                    steps++
+                    guesses.add(userGuess)
+
                     if(randomNumber == userGuess) {
-                        gameBinding.textViewHint.text = "Congratulations, The number in my mind was $randomNumber"
+                        createDialogMessage()
+//                        gameBinding.textViewHint.text = "Congratulations, The number in my mind was $randomNumber"
                         // dialog message
                     }else {
                         remainingRight--
 
                         if(remainingRight == 0) {
-                            gameBinding.textViewHint.text = "Sorry, Game over"
+                            createDialogMessage()
+//                            gameBinding.textViewHint.text = "Sorry, Game over"
                             //dialog message
                         }else {
                             if(userGuess < randomNumber) {
@@ -101,5 +110,33 @@ class GameActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Please enter a valid guess", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun createDialogMessage() {
+        val dialogBox = AlertDialog.Builder(this@GameActivity, )
+        dialogBox.setTitle("Number Guessing Game")
+        if(remainingRight > 0) {
+            dialogBox.setMessage("\tCongratulations, The number in my mind was $randomNumber" +
+                    "\n\n\tYou know my number in $steps " +
+            "\n\n\t Your guesses: $guesses" +
+            "\n\n\t Do you want to play again ?")
+        }else {
+            dialogBox.setMessage("\tSorry, your right to guess is over" +
+                    "\n\n\tThe number in my mind was $randomNumber" +
+                    "\n\n\t Your guesses: $guesses" +
+                    "\n\n\t Do you want to play again ?")
+        }
+        dialogBox.setCancelable(false)
+        dialogBox.setNegativeButton("No", OnClickListener { dialogInterface, i ->
+            finishAffinity()
+        })
+
+        dialogBox.setPositiveButton("YES",OnClickListener { dialogInterface, i ->
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
+
+        dialogBox.create().show()
     }
 }
