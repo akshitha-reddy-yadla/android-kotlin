@@ -27,7 +27,7 @@ class FragmentQuiz : Fragment() {
         fragmentQuizBinding.btnD.setOnClickListener {  }
 
         fragmentQuizBinding.btnNext.setOnClickListener {  }
-        
+
         return fragmentQuizBinding.root;
     }
 }
