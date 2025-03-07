@@ -12,6 +12,12 @@
     <string name="question_number">Question: 1</string>
     <string name="btn_option">Country Name</string>
     <string name="btn_next">Next</string>
+    <string name="your_result">Your Result</string>
+    <string name="btn_new">New Quiz</string>
+    <string name="btn_exit">Exit</string>
+
+
+
 
 
 </resources>
